@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Lock, Upload, X, CheckCircle, ArrowLeft, ChevronRight, AlertTriangle, Info } from 'lucide-react'
+import { Lock, Upload, X, CheckCircle, ArrowLeft, ChevronRight, AlertTriangle, Info, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { user } from '../data/mockData'
 
@@ -42,14 +42,30 @@ function LockedField({ label, value }) {
   )
 }
 
-function EditField({ label, defaultValue }) {
+function EditField({ label, defaultValue, wide }) {
   return (
-    <div className="field-wrap">
+    <div className="field-wrap" style={wide ? { gridColumn: '1 / -1' } : undefined}>
       <div className="field-label">{label}</div>
       <input className="field-input" defaultValue={defaultValue} />
     </div>
   )
 }
+
+const checklistIcons = {
+  done:    <CheckCircle size={16} color="#2E844A" style={{ flexShrink: 0, marginTop: 2 }} />,
+  pending: <AlertTriangle size={16} color="#C23934" style={{ flexShrink: 0, marginTop: 2 }} />,
+  notice:  <Info size={16} color="#DD7A01" style={{ flexShrink: 0, marginTop: 2 }} />,
+}
+
+const checklistColors = { done: '#2E844A', pending: '#C23934', notice: '#8C4B02' }
+
+const requirements = [
+  { label: 'Drug test within 90 days of expiration', status: 'done', detail: 'Taken Oct 15 · verified Oct 28, 2026 · LabCorp' },
+  { label: 'TLC Driver License Renewal Course', status: 'done', detail: 'Completed Oct 20, 2026 · sent to TLC by your course provider' },
+  { label: 'Sex trafficking awareness training', status: 'done', detail: 'Video completed Oct 22, 2026' },
+  { label: 'Tickets & summonses', status: 'notice', detail: 'No unpaid tickets. Summons #TLC-2026-8821 is pending (response due Nov 15). If it results in a fine, the fine must be paid before your renewal can be approved.' },
+  { label: 'Defensive Driving Certificate (DDC)', status: 'pending', detail: 'Upload required in next step · must be dated within 3 years of your expiration date' },
+]
 
 function Step1({ onNext }) {
   return (
@@ -69,31 +85,29 @@ function Step1({ onNext }) {
 
       <div className="form-section-label">Contact Information</div>
       <div className="form-grid">
-        <EditField label="Home Address" defaultValue={user.address} />
+        <EditField label="Home Address" defaultValue={user.address} wide />
         <EditField label="Phone Number" defaultValue={user.phone} />
         <EditField label="Email Address" defaultValue={user.email} />
-        <LockedField label="Vehicle on File" value={`${user.vehicle} · ${user.plate}`} />
       </div>
 
       <div className="form-section-label">Renewal Requirements</div>
       <div className="checklist">
-        {[
-          { label: 'Drug test completed within 90 days', done: true, detail: 'Taken Oct 15 · verified Oct 28, 2026 · LabCorp', color: '#2E844A' },
-          { label: 'TLC Renewal Course completed', done: true, detail: 'Completed Oct 20, 2026 · NYC TLC School', color: '#2E844A' },
-          { label: 'Outstanding tickets cleared', done: true, detail: 'No outstanding tickets on record', color: '#2E844A' },
-          { label: 'Defensive Driving Certificate (DDC)', done: false, detail: 'Upload required in next step', color: '#C23934' },
-        ].map((req, i) => (
+        {requirements.map((req, i) => (
           <div key={i} className="checklist-row">
-            {req.done
-              ? <CheckCircle size={16} color="#2E844A" style={{ flexShrink: 0, marginTop: 2 }} />
-              : <AlertTriangle size={16} color="#C23934" style={{ flexShrink: 0, marginTop: 2 }} />
-            }
+            {checklistIcons[req.status]}
             <div>
               <div className="checklist-row-label">{req.label}</div>
-              <div className="checklist-row-detail" style={{ color: req.color }}>{req.detail}</div>
+              <div className="checklist-row-detail" style={{ color: checklistColors[req.status] }}>{req.detail}</div>
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="info-box" style={{ marginTop: 16, marginBottom: 0 }}>
+        <Clock size={14} style={{ flexShrink: 0, marginTop: 1 }} />
+        <span>
+          Complete all requirements before <strong>December 13, 2026</strong> to avoid a <strong>$25 late fee</strong>. After your license expires you have 180 days to renew, but you cannot drive for hire until TLC approves your renewal.
+        </span>
       </div>
 
       <div className="form-actions">
@@ -115,13 +129,6 @@ function Step2({ onNext, onBack, uploads, setUploads, isReupload }) {
       note: 'Must show course type, completion date, hours, and official seal',
       flagged: isReupload,
       flagNote: 'Re-upload required — previous scan was unclear',
-    },
-    {
-      key: 'renewal_course',
-      label: 'TLC Renewal Course Certificate',
-      required: false,
-      note: 'Already on file — upload only if updated',
-      flagged: false,
     },
   ]
 
@@ -197,6 +204,23 @@ function Step2({ onNext, onBack, uploads, setUploads, isReupload }) {
         ))}
       </div>
 
+      <div className="form-section-label" style={{ marginTop: 24 }}>Received directly by TLC</div>
+      <div className="review-table">
+        {[
+          ['TLC Renewal Course completion', 'Sent by your course provider · Oct 20, 2026'],
+          ['Drug test results', 'Sent by LabCorp · Oct 28, 2026'],
+        ].map(([name, detail]) => (
+          <div key={name} className="review-row" style={{ alignItems: 'center' }}>
+            <span className="review-row-label" style={{ width: 'auto', flex: 1, color: '#16325C', fontWeight: 500 }}>{name}</span>
+            <span style={{ fontSize: 12, color: '#706E6B', marginRight: 10 }}>{detail}</span>
+            <CheckCircle size={14} color="#2E844A" />
+          </div>
+        ))}
+      </div>
+      <div style={{ fontSize: 11, color: '#706E6B', marginTop: 6 }}>
+        No upload needed — these records come to TLC from the provider.
+      </div>
+
       <div className="form-actions">
         <button className="btn-secondary" onClick={onBack}>
           <ArrowLeft size={14} /> Back
@@ -234,6 +258,13 @@ function Step3({ onSubmit, onBack, isReupload }) {
             <span className="review-row-value">{value}</span>
           </div>
         ))}
+        <div className="review-row">
+          <span className="review-row-label">Tickets & Summonses</span>
+          <span style={{ color: '#8C4B02', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Info size={13} color="#DD7A01" />
+            No unpaid tickets · 1 pending summons
+          </span>
+        </div>
       </div>
 
       {isReupload ? (
@@ -247,12 +278,13 @@ function Step3({ onSubmit, onBack, isReupload }) {
         </>
       ) : (
         <>
-          <div className="form-section-label" style={{ marginTop: 20 }}>Documents Submitted</div>
+          <div className="form-section-label" style={{ marginTop: 20 }}>Requirements & Documents</div>
           <div className="review-table">
             {[
               ['Defensive Driving Certificate', 'Uploaded'],
-              ['Drug Test Results', 'On File'],
-              ['TLC Renewal Course Certificate', 'On File'],
+              ['Drug Test Results', 'Received from LabCorp'],
+              ['TLC Renewal Course', 'Received from provider'],
+              ['Sex Trafficking Awareness Training', 'Completed'],
             ].map(([name, status]) => (
               <div key={name} className="review-row">
                 <span className="review-row-label">{name}</span>

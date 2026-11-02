@@ -18,7 +18,7 @@ const ellieGreeting = "Hi John, I'm Ellie. I can help with your license renewal,
 const elliePrompts = [
   {
     q: "Where's my renewal?",
-    a: 'Your renewal for license #TLC-5094821 is in progress. Your drug test and renewal course are verified. The Defensive Driving Certificate is the last document needed before your Dec 13 deadline.',
+    a: 'Your renewal for license #TLC-5094821 is in progress. Your drug test, renewal course and sex trafficking awareness training are complete. The Defensive Driving Certificate is the last document needed before your Dec 13 deadline. Summons #TLC-2026-8821 is still pending — if it results in a fine, it must be paid before your renewal can be approved.',
   },
   {
     q: 'Pay a fee',

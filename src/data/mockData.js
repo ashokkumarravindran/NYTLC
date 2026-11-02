@@ -61,7 +61,7 @@ export const actionCards = [
     detail2Label: 'Respond By',
     detail2Value: "15 Nov '26",
     hintLead: '13 days left',
-    contextHint: 'Late or missing responses may result in additional penalties.',
+    contextHint: 'Late or missing responses may result in additional penalties, and unpaid fines block license renewal.',
     ctaLabel: 'Respond Now',
     route: null,
   },
