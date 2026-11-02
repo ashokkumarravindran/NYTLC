@@ -1166,6 +1166,9 @@ button { font-family: inherit; }
   flex-shrink: 0;
 }
 
+.step-item { flex-shrink: 0; }
+.step-label { white-space: nowrap; }
+
 .step-item.active .step-circle { background: var(--slds-blue); color: #fff; }
 .step-item.active .step-label  { color: var(--slds-navy); font-weight: 600; }
 .step-item.done .step-circle   { background: var(--c-success); color: #fff; }

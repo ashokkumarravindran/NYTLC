@@ -14,7 +14,7 @@ function StepBar({ current }) {
   return (
     <div className="step-bar">
       {STEPS.map((s, i) => (
-        <div key={s.num} style={{ display: 'flex', alignItems: 'center', flex: i < STEPS.length - 1 ? 1 : 0 }}>
+        <div key={s.num} style={{ display: 'flex', alignItems: 'center', flex: i < STEPS.length - 1 ? 1 : '0 0 auto' }}>
           <div className={`step-item${current === s.num ? ' active' : current > s.num ? ' done' : ''}`}>
             <div className="step-circle">
               {current > s.num ? <CheckCircle size={13} /> : s.num}
