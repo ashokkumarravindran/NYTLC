@@ -290,18 +290,20 @@ button { font-family: inherit; }
   margin-top: 2px;
 }
 
-.summary-insight {
+.ellie-card .summary-identity { gap: 10px; }
+
+.ellie-insight {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  margin-left: 4px;
   font-size: 12px;
-  line-height: 1.45;
+  line-height: 1.4;
   color: var(--slds-text);
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid #F0F0F0;
 }
 
-.summary-insight-icon {
+.ellie-insight-icon {
   color: var(--slds-blue);
   flex-shrink: 0;
   margin-top: 1px;
@@ -310,7 +312,7 @@ button { font-family: inherit; }
 .ellie-icon { color: var(--slds-navy); flex-shrink: 0; }
 
 .ellie-hero-text {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 1.1;
   color: var(--slds-navy);

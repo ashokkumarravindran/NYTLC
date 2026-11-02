@@ -88,10 +88,6 @@ function SummaryCard({ card }) {
           <div className="summary-sub">{card.sub}</div>
         </div>
       </div>
-      <div className="summary-insight">
-        <Sparkles size={15} className="summary-insight-icon" />
-        <span>{card.insight}</span>
-      </div>
     </div>
   )
 }
@@ -103,12 +99,12 @@ function EllieCard({ onOpen }) {
         <span className="summary-card-label">I Want To</span>
       </div>
       <div className="summary-identity">
-        <MessageSquareMore size={44} strokeWidth={1.75} className="ellie-icon" />
+        <MessageSquareMore size={40} strokeWidth={1.75} className="ellie-icon" />
         <div className="ellie-hero-text">Hi,<br />I'm Ellie</div>
-      </div>
-      <div className="summary-insight">
-        <Sparkles size={15} className="summary-insight-icon" />
-        <span>Your AI assistant for TLC Connect. How can I help you?</span>
+        <div className="ellie-insight">
+          <Sparkles size={15} className="ellie-insight-icon" />
+          <span>Your AI assistant for TLC Connect. How can I help you?</span>
+        </div>
       </div>
     </button>
   )
