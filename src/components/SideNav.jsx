@@ -3,7 +3,7 @@ import { Home, FolderOpen, FileText, CreditCard, Settings } from 'lucide-react'
 import { user } from '../data/mockData'
 
 const navItems = [
-  { label: 'Home', icon: Home, path: '/' },
+  { label: 'Home', icon: Home, path: '/vision' },
   { label: 'My Cases', icon: FolderOpen, path: '/cases' },
   { label: 'Documents', icon: FileText, path: '/documents' },
   { label: 'Payments', icon: CreditCard, path: '/payments' },
@@ -12,11 +12,11 @@ const navItems = [
 export default function SideNav() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const activePath = pathname === '/renewal' ? '/' : pathname
+  const activePath = pathname === '/renewal' ? '/vision' : pathname
 
   return (
     <nav className="side-nav">
-      <div className="side-nav-logo" onClick={() => navigate('/')} title="TLC Connect">
+      <div className="side-nav-logo" onClick={() => navigate('/')} title="All prototypes">
         <span className="side-nav-logo-badge">NYC</span>
         <span className="side-nav-logo-text">TLC</span>
       </div>
@@ -33,7 +33,7 @@ export default function SideNav() {
           key={label}
           className={`side-nav-item${activePath === path ? ' active' : ''}`}
           title={label}
-          onClick={() => path === '/' && navigate('/')}
+          onClick={() => path === '/vision' && navigate('/vision')}
         >
           <Icon size={20} />
         </button>

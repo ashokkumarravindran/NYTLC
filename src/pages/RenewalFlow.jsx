@@ -374,7 +374,7 @@ function Confirmation({ isReupload }) {
       )}
 
       <div className="confirm-actions">
-        <button className="btn-primary" onClick={() => navigate('/')}>
+        <button className="btn-primary" onClick={() => navigate('/vision')}>
           Return to Home
         </button>
         {!isReupload && (
@@ -401,7 +401,7 @@ export default function RenewalFlow() {
       setRenewalStatus('submitted')
       setShowSuccessBanner(true)
     }
-    navigate('/')
+    navigate('/vision')
   }
 
   return (
@@ -409,7 +409,7 @@ export default function RenewalFlow() {
       <div className="renewal-page">
         <div className="renewal-wrap">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/vision')}
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0070D2', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, padding: 0 }}
           >
             <ArrowLeft size={14} /> Back to Home
@@ -430,7 +430,7 @@ export default function RenewalFlow() {
             ) : step === 2 ? (
               <Step2
                 onNext={() => setStep(3)}
-                onBack={() => isReupload ? navigate('/') : setStep(1)}
+                onBack={() => isReupload ? navigate('/vision') : setStep(1)}
                 uploads={uploads}
                 setUploads={setUploads}
                 isReupload={isReupload}
