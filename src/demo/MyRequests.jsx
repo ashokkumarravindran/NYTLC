@@ -5,23 +5,17 @@ import {
   MessageCircle, CornerUpLeft, Phone,
 } from 'lucide-react'
 import { PortalShell, PageHeader, StatusBadge, isOpen } from './shared'
-import { johnPriorRequests, scenarioState, requestTypes, john, progress } from './demoData'
+import { johnPriorRequests, scenarioState, requestTypes, john, stage } from './demoData'
 
 const typeIcons = { document: FileUp, licensing: IdCard, vehicle: Car, summons: Scale }
 const PAGE_SIZE = 8
 
-function scenarioStatusFor(step) {
-  if (step === 1) return progress.done(1) ? 'submitted' : null
-  if (step === 3) return progress.done(3) ? 'resubmitted' : 'returned'
-  return 'approved'
-}
-
-export default function MyRequests({ step }) {
+export default function MyRequests() {
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
-  const base = { 1: '/demo/submit', 3: '/demo/fix', 5: '/demo/decision' }[step]
 
-  const state = scenarioStatusFor(step)
+  const current = stage.get()
+  const state = current === 'new' ? null : current
   const scenario = state ? scenarioState(state) : null
   const rows = scenario ? [scenario, ...johnPriorRequests] : johnPriorRequests
   const pageCount = Math.ceil(rows.length / PAGE_SIZE)
@@ -42,10 +36,10 @@ export default function MyRequests({ step }) {
     approved: 'you have an update on one of your requests.',
   }[state] ?? 'here are your requests with TLC.'
 
-  const open = (row) => navigate(`${base}/${row.id}`)
+  const open = (row) => navigate(`/requests/${row.id}`)
 
   return (
-    <PortalShell step={step} split complete={state === 'submitted' || state === 'resubmitted'}>
+    <PortalShell split>
       <div className="dm-split">
         <main className="dm-split-main">
           <div className="dm-portal-content">
@@ -100,7 +94,7 @@ export default function MyRequests({ step }) {
 
             <div className="dm-section-head">
               <div>
-                <h2>My Requests</h2>
+                <h2>Service Requests</h2>
                 <p>Everything you have asked TLC, newest first.</p>
               </div>
             </div>
@@ -189,7 +183,7 @@ export default function MyRequests({ step }) {
               return (
                 <li key={t.value}>
                   {t.value === 'document' ? (
-                    <button className="dm-start-item" onClick={() => navigate(`/demo/submit/new?type=${t.value}`)}>
+                    <button className="dm-start-item" onClick={() => navigate(`/requests/new?type=${t.value}`)}>
                       {content}
                     </button>
                   ) : (

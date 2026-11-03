@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   RefreshCw, Scale, ChevronRight, X, CheckCircle, Shield, Car,
-  MessageCircle, MessageSquareMore, Send, Sparkles, Headphones, HelpCircle,
+  MessageCircle, MessageSquareMore, Send, Sparkles,
 } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import ActionCenter from '../components/ActionCenter'
@@ -196,10 +196,6 @@ export default function Dashboard() {
                 ? 'your renewal is under review. Here\'s your latest snapshot.'
                 : `your license expires in ${user.daysUntilExpiry} days. Here's what needs your attention.`}
             </span>
-          </div>
-          <div className="page-header-utils">
-            <button className="page-util-btn" title="Contact TLC Support"><Headphones size={20} /></button>
-            <button className="page-util-btn" title="Help"><HelpCircle size={20} /></button>
           </div>
         </header>
 

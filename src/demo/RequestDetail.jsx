@@ -1,12 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { ChevronRight, CheckCircle, CircleX, Clock, Building, Mail, MessageSquareText } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ChevronRight, CheckCircle, CircleX, Clock, Building, Mail, MessageSquareText, X } from 'lucide-react'
 import { PortalShell, StatusBadge, FieldList, PriorityTag } from './shared'
-import { RequestHistory, FileList } from './parts'
-import { scenarioRequest, scenarioState, johnPriorRequests, priorTimeline, john } from './demoData'
+import { RequestHistory, FileList, RequestPath } from './parts'
+import { scenarioRequest, scenarioState, johnPriorRequests, priorTimeline, john, stage } from './demoData'
 import FixRequest from './FixRequest'
-
-const homes = { 1: '/demo/submit', 3: '/demo/fix', 5: '/demo/decision' }
-const scenarioStates = { 1: 'submitted', 5: 'approved' }
 
 const statusLabels = {
   submitted: 'Submitted', 'in-review': 'In review', resubmitted: 'Resubmitted',
@@ -55,23 +53,39 @@ function DecisionHero({ req }) {
   )
 }
 
-export default function RequestDetail({ step }) {
+export default function RequestDetail() {
   const navigate = useNavigate()
   const { id } = useParams()
+  const { state: navState } = useLocation()
+  const current = stage.get()
+  const [toast, setToast] = useState(!!navState?.justSubmitted)
 
-  if (step === 3 && id === scenarioRequest.id) return <FixRequest />
+  useEffect(() => {
+    if (!toast) return
+    const t = setTimeout(() => setToast(false), 6000)
+    return () => clearTimeout(t)
+  }, [toast])
 
   const isScenario = id === scenarioRequest.id
+  if (isScenario && ['returned', 'resubmitted'].includes(current)) return <FixRequest />
+
   const prior = johnPriorRequests.find(r => r.id === id)
-  const req = isScenario ? scenarioState(scenarioStates[step]) : prior
-  if (!req) return null
+  const req = isScenario ? (current === 'new' ? null : scenarioState(current)) : prior
+  if (!req) return <Navigate to="/requests" replace />
 
   const timeline = isScenario ? req.timeline : priorTimeline(req)
 
   return (
-    <PortalShell step={step} title={`Request ${req.id}`} subtitle={req.summary}>
+    <PortalShell title={`Request ${req.id}`} subtitle={req.summary}>
+      {toast && (
+        <div className="dm-toast" role="status">
+          <CheckCircle size={18} />
+          <span><strong>{req.id}</strong> was submitted. A confirmation was sent to {john.email}.</span>
+          <button onClick={() => setToast(false)} aria-label="Dismiss"><X size={14} /></button>
+        </div>
+      )}
       <div className="dm-breadcrumb">
-        <button onClick={() => navigate(homes[step])}>My Requests</button>
+        <button onClick={() => navigate('/requests')}>Service Requests</button>
         <ChevronRight size={12} />
         <span>{req.id}</span>
       </div>
@@ -98,6 +112,8 @@ export default function RequestDetail({ step }) {
           <div className="dm-subhead" style={{ marginTop: 16 }}>Documents</div>
           <FileList files={req.files} />
         </div>
+
+        <RequestPath req={req} wasReturned={isScenario} />
 
         <div className="dm-card dm-detail-card">
           <div className="dm-card-title">Request history</div>

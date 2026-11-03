@@ -1,26 +1,29 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Compass, Zap, UserRound, ArrowRight, Monitor, Building } from 'lucide-react'
-import { progress } from '../demo/demoData'
+import { ArrowRight, Monitor, Building, CircleCheck, Info } from 'lucide-react'
+import { useApp } from '../context/AppContext'
+import { stage } from '../demo/demoData'
 import '../demo/demo.css'
 
-const principles = [
-  { icon: Compass, title: 'Context-aware', text: 'Surfaces what matters right now' },
-  { icon: Zap, title: 'Action-first', text: 'Every card leads to a next step' },
-  { icon: UserRound, title: 'Personalized', text: "Built around John's licenses and dates" },
+const cast = [
+  {
+    initials: 'JM', avatar: 'navy', name: 'John Martinez', role: 'Full-time driver',
+    channel: 'TLC Connect', icon: Monitor,
+    persona: 'Drives more than 40 hours a week, and it is his only income. His renewal has several requirements to track, and unclear instructions on a rejected document could delay it.',
+    text: 'Took a defensive driving course and needs TLC to accept his certificate before his license renewal.',
+  },
+  {
+    initials: 'SC', avatar: 'green', name: 'Sarah Chen', role: 'Case manager, Licensing Support',
+    channel: 'TLC One', icon: Building,
+    persona: 'Handles many requests at once. Needs each driver’s full history and next action in one place, without switching between systems.',
+    text: 'Finds the scan unreadable and returns it. Approves once John sends a clearer copy.',
+  },
 ]
 
-const people = {
-  john: { initials: 'JM', avatar: 'navy', name: 'John Martinez', channel: 'TLC Connect', icon: Monitor },
-  sarah: { initials: 'SC', avatar: 'green', name: 'Sarah Chen', channel: 'TLC One', icon: Building },
-}
-
-const journey = [
-  { step: 1, path: '/demo/submit', who: 'john', title: 'Submits a service request', text: 'Sends his Defensive Driving Certificate and asks whether it will be accepted.' },
-  { step: 2, path: '/demo/review', who: 'sarah', title: 'Returns it for more information', text: 'The certificate scan is unreadable, so she asks John for a clearer copy.' },
-  { step: 3, path: '/demo/fix', who: 'john', title: 'Updates and resubmits', text: 'Sees exactly what Licensing Support needs, uploads a clear copy and resubmits.' },
-  { step: 4, path: '/demo/approve', who: 'sarah', title: 'Approves the request', text: 'Reviews the new certificate with the full history and approves.' },
-  { step: 5, path: '/demo/decision', who: 'john', title: 'Sees the decision', text: 'Finds Approved with the decision date and the reviewer’s note.' },
+const covers = [
+  'Ten-field request, routed by request type',
+  'One review stage to approve, return or reject',
+  'Resubmit with a shared request history',
 ]
 
 function LivePreview({ src }) {
@@ -41,7 +44,7 @@ function LivePreview({ src }) {
       <div className="ix-preview-frame" style={{ width: 1440 * scale, height: 900 * scale + 28 }}>
         <div className="ix-preview-chrome">
           <span /><span /><span />
-          <div className="ix-preview-label">TLC Connect</div>
+          <div className="ix-preview-label">TLC Connect home page, concept</div>
         </div>
         <div className="ix-preview-viewport" style={{ height: 900 * scale }}>
           <iframe
@@ -56,6 +59,14 @@ function LivePreview({ src }) {
 
 export default function IndexPage() {
   const navigate = useNavigate()
+  const { resetHome } = useApp()
+
+  // Both entry points start a fresh run of the scenario
+  const launch = (path) => () => {
+    stage.reset()
+    resetHome()
+    navigate(path)
+  }
 
   return (
     <div className="ix-page">
@@ -63,76 +74,61 @@ export default function IndexPage() {
         <span className="side-nav-logo-badge">NYC</span>
         <span className="ix-header-brand">TLC Connect</span>
         <span className="ix-header-divider" />
-        <span className="ix-header-sub">Prototypes</span>
+        <span className="ix-header-sub">Prototype</span>
         <span className="ix-header-right">November 2026</span>
       </header>
 
       <main className="ix-panes">
-        <section className="ix-vision" aria-labelledby="ix-vision-title">
-          <div className="ix-eyebrow">Design Vision</div>
-          <h1 id="ix-vision-title" className="ix-title">What TLC Connect could be</h1>
-          <p className="ix-lede">A TLC Connect experience that knows what John needs before he asks. A future-state concept, beyond the demonstration scope.</p>
+        <section className="ix-story-pane" aria-labelledby="ix-title">
+          <div className="ix-story-inner">
+            <div className="ix-eyebrow">Vendor Demonstration Scenario</div>
+            <h1 id="ix-title" className="ix-title">Service Requests in TLC Connect and TLC One</h1>
 
-          <ul className="ix-principles">
-            {principles.map(p => {
-              const Icon = p.icon
-              return (
-                <li key={p.title}>
-                  <span className="ix-principle-icon"><Icon size={16} /></span>
-                  <div><strong>{p.title}</strong><span>{p.text}</span></div>
-                </li>
-              )
-            })}
-          </ul>
+            <ol className="ix-cast">
+              {cast.map(p => {
+                const ChannelIcon = p.icon
+                return (
+                  <li key={p.name}>
+                    <span className={`ix-avatar ${p.avatar}`}>{p.initials}</span>
+                    <div className="ix-cast-body">
+                      <div className="ix-cast-head">
+                        <strong>{p.name}</strong>
+                        <span className="ix-cast-role">{p.role}</span>
+                        <span className="ix-channel"><ChannelIcon size={12} /> {p.channel}</span>
+                      </div>
+                      <p className="ix-cast-persona">{p.persona}</p>
+                      <p className="ix-cast-story">{p.text}</p>
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
 
-          <button className="ix-preview-button" onClick={() => navigate('/vision')} aria-label="Explore the design vision">
-            <LivePreview src="/vision" />
-          </button>
-
-          <div className="ix-foot">
-            <button className="ix-cta" onClick={() => navigate('/vision')}>
-              Explore the vision <ArrowRight size={16} />
-            </button>
-            <span className="ix-foot-meta">Includes the home dashboard, the license renewal flow and Ellie, the TLC assistant.</span>
+            <h2 className="ix-section-label">What you will see</h2>
+            <ul className="ix-covers">
+              {covers.map(c => <li key={c}><CircleCheck size={16} /> {c}</li>)}
+            </ul>
+            <p className="ix-bounds">Scoped to Section 2 of TLC’s Vendor Demonstration Criteria.</p>
           </div>
         </section>
 
-        <section className="ix-demo" aria-labelledby="ix-demo-title">
-          <div className="ix-eyebrow">Vendor Demonstration Scenario</div>
-          <h1 id="ix-demo-title" className="ix-title">A Generic Service Request</h1>
-          <p className="ix-lede">Built to TLC's Vendor Demonstration Criteria. Submitted in TLC Connect, reviewed in Salesforce, decided in a single review stage.</p>
+        <section className="ix-launch" aria-label="Start the demo">
+          <button className="ix-preview-button" onClick={launch('/home')} aria-label="Preview the home page concept">
+            <LivePreview src="/home" />
+          </button>
 
-          <div className="ix-story">
-            <span className="ix-story-label">The story</span>
-            <p>John Martinez completed a defensive driving course and asks TLC whether his certificate will be accepted for his license renewal.</p>
+          <div className="ix-foot">
+            <button className="ix-cta" onClick={launch('/requests')}>
+              Open John’s Service Requests <ArrowRight size={16} />
+            </button>
+            <button className="ix-link" onClick={launch('/home')}>
+              or preview the home page <span className="ix-tag">Concept</span>
+            </button>
           </div>
 
-          <ol className="ix-journey">
-            {journey.map(j => {
-              const person = people[j.who]
-              const ChannelIcon = person.icon
-              return (
-                <li key={j.step}>
-                  <span className="ix-journey-num">{j.step}</span>
-                  <button className="ix-journey-card" onClick={() => { progress.clear(j.step); navigate(j.path) }}>
-                    <span className={`ix-avatar ${person.avatar}`}>{person.initials}</span>
-                    <span className="ix-journey-body">
-                      <span className="ix-journey-who">
-                        <strong>{person.name}</strong>
-                        <span className="ix-channel"><ChannelIcon size={12} /> {person.channel}</span>
-                      </span>
-                      <span className="ix-journey-title">{j.title}</span>
-                      <span className="ix-journey-text">{j.text}</span>
-                    </span>
-                    <ArrowRight size={18} className="ix-journey-arrow" />
-                  </button>
-                </li>
-              )
-            })}
-          </ol>
-
-          <p className="ix-scope">
-            Scope follows Section 2 of TLC's criteria: ten fields, routing by request type, and one review stage with return and resubmit.
+          <p className="ix-disclaimer">
+            <Info size={14} />
+            <span>Clickable mock-up with sample data. A build on standard Lightning components may look slightly different.</span>
           </p>
         </section>
       </main>

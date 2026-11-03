@@ -4,27 +4,26 @@ import {
   ChevronRight, CornerUpLeft, RefreshCw, Building, Mail, MessageSquareText, FileText, Upload, Send, Lock, CircleAlert,
 } from 'lucide-react'
 import { PortalShell, StatusBadge, FieldList, PriorityTag } from './shared'
-import { RequestHistory } from './parts'
-import { scenarioState, DESCRIPTION_LIMIT, john, progress } from './demoData'
+import { RequestHistory, RequestPath } from './parts'
+import { scenarioState, DESCRIPTION_LIMIT, john, stage } from './demoData'
 
 export default function FixRequest() {
   const navigate = useNavigate()
   const [description, setDescription] = useState(scenarioState('returned').description)
-  const [replaced, setReplaced] = useState(progress.done(3))
-  const [resubmitted, setResubmitted] = useState(progress.done(3))
+  const [replaced, setReplaced] = useState(stage.get() === 'resubmitted')
+  const [resubmitted, setResubmitted] = useState(stage.get() === 'resubmitted')
 
   const req = scenarioState(resubmitted ? 'resubmitted' : 'returned')
-  const home = '/demo/fix'
 
   const resubmit = () => {
-    progress.mark(3)
+    stage.set('resubmitted')
     setResubmitted(true)
   }
 
   return (
-    <PortalShell step={3} complete={resubmitted} title={`Request ${req.id}`} subtitle={req.summary}>
+    <PortalShell title={`Request ${req.id}`} subtitle={req.summary}>
       <div className="dm-breadcrumb">
-        <button onClick={() => navigate(home)}>My Requests</button>
+        <button onClick={() => navigate('/requests')}>Service Requests</button>
         <ChevronRight size={12} />
         <span>{req.id}</span>
       </div>
@@ -143,13 +142,15 @@ export default function FixRequest() {
               {!replaced && (
                 <span className="dm-actions-hint"><Lock size={12} /> Replace the flagged document to resubmit</span>
               )}
-              <button className="dm-btn secondary" onClick={() => navigate('/demo/fix')}>Cancel</button>
+              <button className="dm-btn secondary" onClick={() => navigate('/requests')}>Cancel</button>
               <button className="dm-btn primary" disabled={!replaced} onClick={resubmit}>
                 <Send size={14} /> Resubmit request
               </button>
             </div>
           )}
         </div>
+
+        <RequestPath req={req} wasReturned />
 
         <div className="dm-card dm-detail-card">
           <div className="dm-card-title">Request history</div>

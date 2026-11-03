@@ -8,8 +8,16 @@ export function AppProvider({ children }) {
   const [sarahReuploadVisible, setSarahReuploadVisible] = useState(false)
   const [isReupload, setIsReupload] = useState(false)
 
+  const resetHome = () => {
+    setRenewalStatus(null)
+    setShowSuccessBanner(false)
+    setSarahReuploadVisible(false)
+    setIsReupload(false)
+  }
+
   return (
     <AppContext.Provider value={{
+      resetHome,
       renewalStatus, setRenewalStatus,
       showSuccessBanner, setShowSuccessBanner,
       sarahReuploadVisible, setSarahReuploadVisible,

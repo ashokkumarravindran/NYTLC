@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import {
   ClipboardList, ChevronRight, CheckCircle, CornerUpLeft, CircleX, FileText, Eye, Download,
   ListChecks, X, Lock, ShieldCheck, CircleAlert,
 } from 'lucide-react'
 import { StaffShell, StatusBadge, PriorityTag, FieldList } from './shared'
-import { scenarioState, staffHistory, sarah } from './demoData'
+import { scenarioState, staffHistory, sarah, stage } from './demoData'
 
 function CertificatePreview() {
   return (
@@ -53,27 +53,29 @@ const decisions = [
   { key: 'reject', label: 'Reject', icon: CircleX },
 ]
 
-export default function ReviewRequest({ step }) {
+export default function ReviewRequest() {
   const navigate = useNavigate()
-  const action = step === 2 ? 'return' : 'approve'
-  const startState = step === 2 ? 'submitted' : 'resubmitted'
-  const doneState = step === 2 ? 'returned' : 'approved'
+  const current = stage.get()
+  // First review returns the request, the review after John resubmits approves it
+  const action = ['submitted', 'returned'].includes(current) ? 'return' : 'approve'
+  const startState = action === 'return' ? 'submitted' : 'resubmitted'
+  const doneState = action === 'return' ? 'returned' : 'approved'
 
-  const [done, setDone] = useState(false)
+  const [done, setDone] = useState(current === doneState)
   const [toast, setToast] = useState(false)
   const [noteError, setNoteError] = useState(false)
 
   const req = scenarioState(done ? doneState : startState)
   const [note, setNote] = useState(action === 'return' ? req.returnNote : req.approveNote)
   const history = staffHistory(done ? doneState : startState)
-  const showSecondFile = step === 4
-  const base = step === 2 ? '/demo/review' : '/demo/approve'
+  const showSecondFile = action === 'approve'
 
   const confirm = () => {
     if (action === 'return' && !note.trim()) {
       setNoteError(true)
       return
     }
+    stage.set(doneState)
     setDone(true)
     setToast(true)
     setTimeout(() => setToast(false), 6000)
@@ -81,10 +83,12 @@ export default function ReviewRequest({ step }) {
 
   const lastField = done
     ? [action === 'return' ? 'Returned' : 'Decision date', action === 'return' ? req.returned : req.decided]
-    : step === 4 ? ['Resubmitted', req.resubmitted] : ['Waiting', 'Today']
+    : action === 'approve' ? ['Resubmitted', req.resubmitted] : ['Waiting', 'Today']
+
+  if (current === 'new') return <Navigate to="/one/requests" replace />
 
   return (
-    <StaffShell step={step} complete={done}>
+    <StaffShell>
       {toast && (
         <div className={`dm-toast ${action}`} role="status">
           {action === 'return' ? <CornerUpLeft size={18} /> : <CheckCircle size={18} />}
@@ -98,7 +102,7 @@ export default function ReviewRequest({ step }) {
       )}
 
       <div className="dm-sf-breadcrumb">
-        <button onClick={() => navigate(base)}>{sarah.role} · Pending review</button>
+        <button onClick={() => navigate('/one/requests')}>{sarah.role} · My Team's Requests</button>
         <ChevronRight size={12} />
         <span>{req.id}</span>
       </div>

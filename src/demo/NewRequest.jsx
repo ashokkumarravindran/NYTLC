@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Upload, FileText, X, Route, CircleAlert, Send, ChevronRight, ChevronDown, Lock } from 'lucide-react'
 import { PortalShell } from './shared'
-import { john, requestTypes, DESCRIPTION_LIMIT, documentDescription } from './demoData'
+import { john, requestTypes, DESCRIPTION_LIMIT, documentDescription, scenarioRequest, stage } from './demoData'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -55,16 +55,15 @@ export default function NewRequest() {
       requestAnimationFrame(() => summaryRef.current?.focus())
       return
     }
-    navigate('/demo/submit/confirmation', {
-      state: { type: selectedType.label, unit: selectedType.unit, priority: form.priority, file: form.file },
-    })
+    if (stage.get() === 'new') stage.set('submitted')
+    navigate(`/requests/${scenarioRequest.id}`, { state: { justSubmitted: true } })
   }
 
   return (
-    <PortalShell step={1} title="New Service Request" subtitle="tell TLC what you need and we will send it to the right team.">
+    <PortalShell title="New Service Request" subtitle="tell TLC what you need and we will send it to the right team.">
       <div className="dm-narrow">
         <div className="dm-breadcrumb">
-          <button onClick={() => navigate('/demo/submit')}>My Requests</button>
+          <button onClick={() => navigate('/requests')}>Service Requests</button>
           <ChevronRight size={12} />
           <span>New Service Request</span>
         </div>
@@ -193,7 +192,7 @@ export default function NewRequest() {
           </div>
 
           <div className="dm-form-actions">
-            <button type="button" className="dm-btn secondary" onClick={() => navigate('/demo/submit')}>Cancel</button>
+            <button type="button" className="dm-btn secondary" onClick={() => navigate('/requests')}>Cancel</button>
             <button type="submit" className="dm-btn primary"><Send size={14} /> Submit request</button>
           </div>
         </form>

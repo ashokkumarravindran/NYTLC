@@ -27,21 +27,18 @@ export const documentDescription =
 
 export const DESCRIPTION_LIMIT = 1000
 
-// Remembers in-scenario progress (submitted in step 1, resubmitted in step 3) until the index restarts a scenario
-const progressKey = (step) => `tlc-demo-step-${step}-done`
-export const progress = {
-  done: (step) => sessionStorage.getItem(progressKey(step)) === '1',
-  mark: (step) => sessionStorage.setItem(progressKey(step), '1'),
-  clear: (step) => sessionStorage.removeItem(progressKey(step)),
+// Where SR-00482 is in the story. Shared by both profiles and kept until the overview relaunches the experience.
+const STAGE_KEY = 'tlc-demo-stage'
+export const stage = {
+  get: () => sessionStorage.getItem(STAGE_KEY) ?? 'new', // new | submitted | returned | resubmitted | approved
+  set: (s) => sessionStorage.setItem(STAGE_KEY, s),
+  reset: () => sessionStorage.removeItem(STAGE_KEY),
 }
 
-export const scenarios = [
-  { step: 1, path: '/demo/submit', title: 'John submits a generic service request', next: 'Sarah reviews' },
-  { step: 2, path: '/demo/review', title: 'Sarah reviews and returns it for more information', next: 'John updates the request' },
-  { step: 3, path: '/demo/fix', title: 'John updates and resubmits', next: 'Sarah approves' },
-  { step: 4, path: '/demo/approve', title: 'Sarah approves the request', next: 'John sees the decision' },
-  { step: 5, path: '/demo/decision', title: 'John sees the decision' },
-]
+export const profiles = {
+  john: { name: john.name, initials: john.initials, role: 'Driver', app: 'TLC Connect', path: '/requests', tone: 'navy' },
+  sarah: { name: sarah.name, initials: sarah.initials, role: sarah.role, app: 'TLC One', path: '/one/requests', tone: 'green' },
+}
 
 // ── The scenario request ─────────────────────────
 export const scenarioRequest = {
@@ -195,8 +192,8 @@ export const otherQueueItems = [
 ]
 
 export const queueStats = [
-  { label: 'Pending review', value: '6' },
+  { label: 'Pending review' },
   { label: 'Expedited', value: '2' },
-  { label: 'Awaiting requester', value: '1' },
+  { label: 'Awaiting requester' },
   { label: 'Avg. time to decision', value: '2.4', unit: 'days' },
 ]

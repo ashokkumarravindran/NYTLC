@@ -1,22 +1,20 @@
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { AppProvider } from './context/AppContext'
-import SideNav from './components/SideNav'
+import { ConnectFrame } from './demo/shared'
 import Dashboard from './pages/Dashboard'
 import RenewalFlow from './pages/RenewalFlow'
 import IndexPage from './pages/IndexPage'
 import MyRequests from './demo/MyRequests'
 import NewRequest from './demo/NewRequest'
-import RequestConfirmation from './demo/RequestConfirmation'
 import RequestDetail from './demo/RequestDetail'
 import ReviewQueue from './demo/ReviewQueue'
 import ReviewRequest from './demo/ReviewRequest'
 
-function VisionLayout() {
+function HomeLayout() {
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
-      <SideNav />
+    <ConnectFrame active="home">
       <Outlet />
-    </div>
+    </ConnectFrame>
   )
 }
 
@@ -27,32 +25,20 @@ export default function App() {
         <Routes>
           <Route path="/" element={<IndexPage />} />
 
-          <Route element={<VisionLayout />}>
-            <Route path="/vision" element={<Dashboard />} />
+          {/* John in TLC Connect */}
+          <Route element={<HomeLayout />}>
+            <Route path="/home" element={<Dashboard />} />
             <Route path="/renewal" element={<RenewalFlow />} />
           </Route>
+          <Route path="/requests" element={<MyRequests />} />
+          <Route path="/requests/new" element={<NewRequest />} />
+          <Route path="/requests/:id" element={<RequestDetail />} />
 
-          {/* Step 1 · John submits */}
-          <Route path="/demo/submit" element={<MyRequests key="s1" step={1} />} />
-          <Route path="/demo/submit/new" element={<NewRequest />} />
-          <Route path="/demo/submit/confirmation" element={<RequestConfirmation />} />
-          <Route path="/demo/submit/:id" element={<RequestDetail key="d1" step={1} />} />
+          {/* Sarah in TLC One */}
+          <Route path="/one/requests" element={<ReviewQueue />} />
+          <Route path="/one/requests/:id" element={<ReviewRequest />} />
 
-          {/* Step 2 · Sarah returns */}
-          <Route path="/demo/review" element={<ReviewQueue key="q2" step={2} />} />
-          <Route path="/demo/review/:id" element={<ReviewRequest key="r2" step={2} />} />
-
-          {/* Step 3 · John updates and resubmits */}
-          <Route path="/demo/fix" element={<MyRequests key="s3" step={3} />} />
-          <Route path="/demo/fix/:id" element={<RequestDetail key="d3" step={3} />} />
-
-          {/* Step 4 · Sarah approves */}
-          <Route path="/demo/approve" element={<ReviewQueue key="q4" step={4} />} />
-          <Route path="/demo/approve/:id" element={<ReviewRequest key="r4" step={4} />} />
-
-          {/* Step 5 · John sees the decision */}
-          <Route path="/demo/decision" element={<MyRequests key="s5" step={5} />} />
-          <Route path="/demo/decision/:id" element={<RequestDetail key="d5" step={5} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AppProvider>
