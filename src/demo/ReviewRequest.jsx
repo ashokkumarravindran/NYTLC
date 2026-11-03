@@ -197,20 +197,6 @@ export default function ReviewRequest({ step }) {
               </div>
             ) : (
               <>
-                <div className="dm-decision-options" role="radiogroup" aria-label="Decision">
-                  {decisions.map(d => {
-                    const Icon = d.icon
-                    const enabled = d.key === action
-                    return (
-                      <button
-                        key={d.key} role="radio" aria-checked={enabled} disabled={!enabled}
-                        className={`dm-decision-option ${d.key}${enabled ? ' selected' : ''}`}
-                      >
-                        <Icon size={15} /> {d.label}
-                      </button>
-                    )
-                  })}
-                </div>
                 <label className="dm-decision-label" htmlFor="decision-note">
                   {action === 'return' ? <>Note to requester <span className="dm-req">*</span></> : 'Note to requester (optional)'}
                 </label>
@@ -222,9 +208,20 @@ export default function ReviewRequest({ step }) {
                 {noteError
                   ? <div className="dm-field-error"><CircleAlert size={13} /> Tell the requester what they need to add or fix.</div>
                   : <div className="dm-hint">The requester sees this note in the portal and in their email.</div>}
-                <button className="dm-btn primary full" onClick={confirm}>
-                  {action === 'return' ? <><CornerUpLeft size={15} /> Return to requester</> : <><CheckCircle size={15} /> Approve request</>}
-                </button>
+                <div className="dm-decision-options" role="group" aria-label="Decision">
+                  {decisions.map(d => {
+                    const Icon = d.icon
+                    const enabled = d.key === action
+                    return (
+                      <button
+                        key={d.key} disabled={!enabled} onClick={enabled ? confirm : undefined}
+                        className={`dm-decision-option ${d.key}${enabled ? ' selected' : ''}`}
+                      >
+                        <Icon size={15} /> {d.label}
+                      </button>
+                    )
+                  })}
+                </div>
                 <div className="dm-decision-disabled">
                   <Lock size={12} /> {action === 'return' ? 'Return' : 'Approve'} is the action for this step of the walkthrough
                 </div>

@@ -62,7 +62,19 @@ export default function FixRequest() {
         </div>
       )}
 
-      <div className="dm-detail-layout wide-left">
+      <div className="dm-detail-side dm-detail-stack thirds">
+        <div className="dm-card dm-detail-card">
+          <div className="dm-card-title">Request details</div>
+          <FieldList items={[
+            ['Request ID', req.id],
+            ['Request type', req.type],
+            ['Priority', <PriorityTag key="p" priority={req.priority} />],
+            ['Reviewed by', req.unit],
+            ['Date submitted', req.submitted],
+            ['Status', resubmitted ? 'Resubmitted' : 'Needs your action'],
+          ]} />
+        </div>
+
         <div className="dm-card dm-detail-card">
           <div className="dm-card-title">{resubmitted ? 'Your updated request' : 'Update your request'}</div>
           {!resubmitted && (
@@ -139,22 +151,9 @@ export default function FixRequest() {
           )}
         </div>
 
-        <div className="dm-detail-side">
-          <div className="dm-card dm-detail-card">
-            <div className="dm-card-title">Request history</div>
-            <RequestHistory timeline={req.timeline} />
-          </div>
-          <div className="dm-card dm-detail-card">
-            <div className="dm-card-title">Request details</div>
-            <FieldList items={[
-              ['Request ID', req.id],
-              ['Request type', req.type],
-              ['Priority', <PriorityTag key="p" priority={req.priority} />],
-              ['Reviewed by', req.unit],
-              ['Date submitted', req.submitted],
-              ['Status', resubmitted ? 'Resubmitted' : 'Needs your action'],
-            ]} />
-          </div>
+        <div className="dm-card dm-detail-card">
+          <div className="dm-card-title">Request history</div>
+          <RequestHistory timeline={req.timeline} />
         </div>
       </div>
     </PortalShell>

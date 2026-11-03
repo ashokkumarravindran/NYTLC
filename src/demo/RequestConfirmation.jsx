@@ -64,7 +64,6 @@ export default function RequestConfirmation() {
           </div>
 
           <div className="dm-form-actions">
-            <button className="dm-btn secondary" onClick={() => navigate(`/demo/submit/${scenarioRequest.id}`)}>View request</button>
             <button className="dm-btn primary" onClick={() => navigate('/demo/submit')}>Back to My Requests</button>
           </div>
         </div>

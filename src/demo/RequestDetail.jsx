@@ -78,12 +78,7 @@ export default function RequestDetail({ step }) {
 
       <DecisionHero req={req} />
 
-      <div className="dm-detail-layout">
-        <div className="dm-card dm-detail-card">
-          <div className="dm-card-title">Request history</div>
-          <RequestHistory timeline={timeline} />
-        </div>
-
+      <div className="dm-detail-side dm-detail-stack">
         <div className="dm-card dm-detail-card">
           <div className="dm-card-title">Your request</div>
           <FieldList items={[
@@ -102,6 +97,11 @@ export default function RequestDetail({ step }) {
           </div>
           <div className="dm-subhead" style={{ marginTop: 16 }}>Documents</div>
           <FileList files={req.files} />
+        </div>
+
+        <div className="dm-card dm-detail-card">
+          <div className="dm-card-title">Request history</div>
+          <RequestHistory timeline={timeline} />
         </div>
       </div>
     </PortalShell>

@@ -16,7 +16,7 @@ const people = {
 }
 
 const journey = [
-  { step: 1, path: '/demo/submit', who: 'john', title: 'Submits a service request', text: 'Sends his Defensive Driving Certificate and asks TLC to confirm it is accepted.' },
+  { step: 1, path: '/demo/submit', who: 'john', title: 'Submits a service request', text: 'Sends his Defensive Driving Certificate and asks whether it will be accepted.' },
   { step: 2, path: '/demo/review', who: 'sarah', title: 'Returns it for more information', text: 'The certificate scan is unreadable, so she asks John for a clearer copy.' },
   { step: 3, path: '/demo/fix', who: 'john', title: 'Updates and resubmits', text: 'Sees exactly what Licensing Support needs, uploads a clear copy and resubmits.' },
   { step: 4, path: '/demo/approve', who: 'sarah', title: 'Approves the request', text: 'Reviews the new certificate with the full history and approves.' },
@@ -93,7 +93,7 @@ export default function IndexPage() {
             <button className="ix-cta" onClick={() => navigate('/vision')}>
               Explore the vision <ArrowRight size={16} />
             </button>
-            <span className="ix-foot-meta">Includes the home dashboard, license renewal and the Ellie assistant.</span>
+            <span className="ix-foot-meta">Includes the home dashboard, the license renewal flow and Ellie, the TLC assistant.</span>
           </div>
         </section>
 
@@ -104,7 +104,7 @@ export default function IndexPage() {
 
           <div className="ix-story">
             <span className="ix-story-label">The story</span>
-            <p>John Martinez completed a defensive driving course and asks TLC to confirm his certificate is accepted for his license renewal.</p>
+            <p>John Martinez completed a defensive driving course and asks TLC whether his certificate will be accepted for his license renewal.</p>
           </div>
 
           <ol className="ix-journey">

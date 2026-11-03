@@ -965,6 +965,8 @@ textarea.dm-input { resize: vertical; line-height: 1.5; }
 .dm-detail-layout.wide-left { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: start; }
 .dm-detail-side { display: flex; flex-direction: column; gap: 16px; }
 .dm-detail-card { padding: 20px 22px; }
+.dm-detail-stack .dm-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.dm-detail-stack.thirds .dm-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
 .dm-journey { list-style: none; }
 .dm-journey li { display: flex; gap: 14px; position: relative; padding-bottom: 18px; }
@@ -1328,7 +1330,7 @@ textarea.dm-input { resize: vertical; line-height: 1.5; }
 .dm-audit-detail { font-size: 12px; color: var(--slds-muted); margin-top: 2px; line-height: 1.45; }
 .dm-audit-date { font-size: 11px; color: var(--slds-muted); white-space: nowrap; }
 
-.dm-decision-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.dm-decision-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
 .dm-decision-option {
   display: flex;
   align-items: center;
@@ -1345,8 +1347,10 @@ textarea.dm-input { resize: vertical; line-height: 1.5; }
 .dm-decision-option:disabled { color: #B0ADAB; background: #FAFAF9; cursor: not-allowed; }
 .dm-decision-option.approve.selected { border-color: var(--c-success); background: #EEF7EE; color: var(--c-success-text); box-shadow: 0 0 0 1px var(--c-success); }
 .dm-decision-option.return.selected { border-color: var(--c-warning); background: #FEF3E2; color: #8C4B02; box-shadow: 0 0 0 1px var(--c-warning); }
+.dm-decision-option.selected { cursor: pointer; transition: background 0.12s; }
+.dm-decision-option.approve.selected:hover { background: #DDF0DF; }
+.dm-decision-option.return.selected:hover { background: #FDE6C4; }
 .dm-decision-label { display: block; font-size: 12px; font-weight: 600; color: var(--slds-text); margin-bottom: 6px; }
-.dm-decision .dm-btn.full { margin-top: 14px; }
 .dm-decision-disabled {
   display: flex;
   align-items: center;
@@ -1387,6 +1391,7 @@ textarea.dm-input { resize: vertical; line-height: 1.5; }
 
 /* ══ Responsive ═══════════════════════════════ */
 @media (max-width: 1100px) {
+  .dm-detail-stack .dm-fields, .dm-detail-stack.thirds .dm-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ix-page { height: auto; min-height: 100vh; overflow: visible; }
   .ix-panes { grid-template-columns: 1fr; }
   .ix-vision, .ix-demo { overflow: visible; }

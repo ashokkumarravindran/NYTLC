@@ -23,7 +23,7 @@ export const requestTypes = [
 ]
 
 export const documentDescription =
-  'I completed a defensive driving course in September. Please confirm if the certificate is accepted for my license renewal, and let me know if any additional documents are needed.'
+  'I completed a defensive driving course in September. Please confirm whether the certificate will be accepted for my license renewal, and let me know if any additional documents are needed.'
 
 export const DESCRIPTION_LIMIT = 1000
 

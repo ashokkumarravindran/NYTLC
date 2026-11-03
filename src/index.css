@@ -22,6 +22,7 @@
   --c-error:        #C23934;
   --c-info:         #0070D2;
   --side-nav-width: 52px;
+  --app-max-width:  1600px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,8 +31,22 @@ body {
   font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   color: var(--slds-text);
-  background: var(--slds-surface);
+  background: #E4E7EB;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Cap the layout on wide monitors and center it on a light gray canvas.
+   The transform makes #root the anchor for fixed panels (Ellie chat, toasts). */
+#root {
+  max-width: var(--app-max-width);
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--slds-surface);
+  transform: translateZ(0);
+}
+@media (min-width: 1601px) {
+  #root { box-shadow: 0 0 0 1px #D3D8DE, 0 0 32px rgba(21, 62, 103, 0.08); }
 }
 
 button { font-family: inherit; }
