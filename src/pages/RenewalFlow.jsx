@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Upload, X, CheckCircle, ArrowLeft, ChevronRight, AlertTriangle, Info, Clock } from 'lucide-react'
 import { useApp } from '../context/AppContext'
@@ -43,10 +43,11 @@ function LockedField({ label, value }) {
 }
 
 function EditField({ label, defaultValue, wide }) {
+  const id = useId()
   return (
     <div className="field-wrap" style={wide ? { gridColumn: '1 / -1' } : undefined}>
-      <div className="field-label">{label}</div>
-      <input className="field-input" defaultValue={defaultValue} />
+      <div className="field-label" id={id}>{label}</div>
+      <input className="field-input" defaultValue={defaultValue} aria-labelledby={id} />
     </div>
   )
 }
@@ -211,7 +212,7 @@ function Step2({ onNext, onBack, uploads, setUploads, isReupload }) {
           ['Drug test results', 'Sent by LabCorp · Oct 28, 2026'],
         ].map(([name, detail]) => (
           <div key={name} className="review-row" style={{ alignItems: 'center' }}>
-            <span className="review-row-label" style={{ width: 'auto', flex: 1, color: '#16325C', fontWeight: 500 }}>{name}</span>
+            <span className="review-row-label" style={{ width: 'auto', flex: 1, color: '#153E67', fontWeight: 500 }}>{name}</span>
             <span style={{ fontSize: 12, color: '#706E6B', marginRight: 10 }}>{detail}</span>
             <CheckCircle size={14} color="#2E844A" />
           </div>
@@ -273,7 +274,7 @@ function Step3({ onSubmit, onBack, isReupload }) {
           <div className="uploaded-file">
             <CheckCircle size={14} color="#2E844A" />
             <span className="uploaded-file-name">ddc_certificate.pdf</span>
-            <span style={{ fontSize: 11, color: '#2E844A', fontWeight: 600 }}>Ready to submit</span>
+            <span style={{ fontSize: 11, color: '#22683A', fontWeight: 600 }}>Ready to submit</span>
           </div>
         </>
       ) : (
@@ -288,7 +289,7 @@ function Step3({ onSubmit, onBack, isReupload }) {
             ].map(([name, status]) => (
               <div key={name} className="review-row">
                 <span className="review-row-label">{name}</span>
-                <span style={{ color: '#2E844A', fontWeight: 600, fontSize: 12 }}>
+                <span style={{ color: '#22683A', fontWeight: 600, fontSize: 12 }}>
                   <CheckCircle size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
                   {status}
                 </span>
@@ -305,7 +306,7 @@ function Step3({ onSubmit, onBack, isReupload }) {
             ].map(f => (
               <div key={f.label} className="fee-row">
                 <span className="fee-label">{f.label}</span>
-                <span style={{ color: f.muted ? '#706E6B' : '#16325C', fontWeight: f.muted ? 400 : 600 }}>
+                <span style={{ color: f.muted ? '#706E6B' : '#153E67', fontWeight: f.muted ? 400 : 600 }}>
                   {f.muted ? `${f.value} (paid)` : f.value}
                 </span>
               </div>
@@ -410,7 +411,7 @@ export default function RenewalFlow() {
         <div className="renewal-wrap">
           <button
             onClick={() => navigate('/vision')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0070D2', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, padding: 0 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#005FB2', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, padding: 0 }}
           >
             <ArrowLeft size={14} /> Back to Home
           </button>

@@ -212,7 +212,7 @@ export default function Dashboard() {
             <button className="success-banner-action" onClick={handleGotIt}>Got it</button>
             <button
               onClick={handleGotIt}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2E844A', display: 'flex', alignItems: 'center', marginLeft: 4 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#22683A', display: 'flex', alignItems: 'center', marginLeft: 4 }}
             >
               <X size={14} />
             </button>

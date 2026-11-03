@@ -152,7 +152,7 @@ export const calendarEvents = [
       { icon: 'video', label: 'Virtual' },
     ],
     participants: [
-      { initials: 'TL', color: '#003087' },
+      { initials: 'TL', color: '#153E67' },
       { initials: 'MR', color: '#DD7A01' },
     ],
     overflow: 24,

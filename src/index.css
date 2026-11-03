@@ -1,11 +1,13 @@
 /* TLC Connect — design tokens + layout */
 
 :root {
-  --tlc-brand:      #003087;
-  --tlc-brand-mid:  #0052CC;
-  --tlc-accent:     #FCB900;
+  /* Brand palette from nyc.gov/tlc */
+  --tlc-brand:      #153E67;
+  --tlc-brand-deep: #0C2741;
+  --tlc-accent:     #F8D100;
   --slds-blue:      #0070D2;
-  --slds-navy:      #16325C;
+  --slds-blue-text: #005FB2; /* blue text that stays AA on gray and tinted backgrounds */
+  --slds-navy:      #153E67;
   --slds-text:      #3E3E3C;
   --slds-muted:     #706E6B;
   --slds-border:    #DDDBDA;
@@ -14,6 +16,9 @@
   --slds-shadow:    0 2px 2px 0 rgba(0, 0, 0, 0.10);
   --c-success:      #2E844A;
   --c-warning:      #DD7A01;
+  /* Darker text shades so status text meets WCAG AA (4.5:1) on tinted backgrounds */
+  --c-success-text: #22683A;
+  --c-warning-text: #A35A00;
   --c-error:        #C23934;
   --c-info:         #0070D2;
   --side-nav-width: 52px;
@@ -73,7 +78,7 @@ button { font-family: inherit; }
 
 .side-nav-logo-badge {
   background: var(--tlc-accent);
-  color: #000;
+  color: var(--tlc-brand-deep);
   font-weight: 800;
   font-size: 10px;
   padding: 3px 5px;
@@ -136,7 +141,7 @@ button { font-family: inherit; }
   transition: background 0.12s, color 0.12s;
 }
 .side-nav-item:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
-.side-nav-item.active { background: #fff; color: var(--tlc-brand); }
+.side-nav-item.active { background: var(--tlc-accent); color: var(--tlc-brand); }
 
 /* ── Page header (greeting + utilities) ───── */
 .page-header {
@@ -256,7 +261,7 @@ button { font-family: inherit; }
   border-radius: 3px;
 }
 .summary-badge.badge-expiring { background: #FEE8E8; color: var(--c-error); }
-.summary-badge.badge-active   { background: #EEF7EE; color: var(--c-success); }
+.summary-badge.badge-active   { background: #EEF7EE; color: var(--c-success-text); }
 
 .summary-identity {
   display: flex;
@@ -270,7 +275,7 @@ button { font-family: inherit; }
   height: 46px;
   border-radius: 8px;
   background: #EEF4FF;
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -304,7 +309,7 @@ button { font-family: inherit; }
 }
 
 .ellie-insight-icon {
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -332,7 +337,7 @@ button { font-family: inherit; }
 .section-link {
   background: none;
   border: none;
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -407,8 +412,8 @@ button { font-family: inherit; }
 }
 
 .action-card-icon.tint-renew     { background: #FEE8E8; color: var(--c-error); }
-.action-card-icon.tint-insurance { background: #FEF3E2; color: var(--c-warning); }
-.action-card-icon.tint-legal     { background: #EEF4FF; color: var(--slds-blue); }
+.action-card-icon.tint-insurance { background: #FEF3E2; color: var(--c-warning-text); }
+.action-card-icon.tint-legal     { background: #EEF4FF; color: var(--slds-blue-text); }
 
 .urgency-badge {
   font-size: 10px;
@@ -420,9 +425,9 @@ button { font-family: inherit; }
 }
 
 .urgency-badge.urgent      { background: #FEE8E8; color: var(--c-error); }
-.urgency-badge.warning     { background: #FEF3E2; color: var(--c-warning); }
-.urgency-badge.submitted   { background: #EEF7EE; color: var(--c-success); }
-.urgency-badge.resubmitted { background: #EEF4FF; color: var(--slds-blue); }
+.urgency-badge.warning     { background: #FEF3E2; color: var(--c-warning-text); }
+.urgency-badge.submitted   { background: #EEF7EE; color: var(--c-success-text); }
+.urgency-badge.resubmitted { background: #EEF4FF; color: var(--slds-blue-text); }
 
 .action-card-title {
   font-size: 15px;
@@ -478,7 +483,7 @@ button { font-family: inherit; }
 
 .action-card-hint strong { color: var(--slds-navy); }
 .accent-urgent .action-card-hint strong { color: var(--c-error); }
-.accent-warning .action-card-hint strong { color: var(--c-warning); }
+.accent-warning .action-card-hint strong { color: var(--c-warning-text); }
 
 .action-card-footer { padding: 0 18px 16px; }
 
@@ -670,8 +675,8 @@ button { font-family: inherit; }
   justify-content: center;
   flex-shrink: 0;
 }
-.cal-event-tile.tint-blue  { background: #EEF4FF; color: var(--slds-blue); }
-.cal-event-tile.tint-amber { background: #FEF3E2; color: var(--c-warning); }
+.cal-event-tile.tint-blue  { background: #EEF4FF; color: var(--slds-blue-text); }
+.cal-event-tile.tint-amber { background: #FEF3E2; color: var(--c-warning-text); }
 .cal-event-tile.tint-gray  { background: var(--slds-surface); color: var(--slds-muted); }
 
 .cal-event-title-row {
@@ -805,10 +810,10 @@ button { font-family: inherit; }
 }
 .doc-status.status-expiring { background: #FEE8E8; color: var(--c-error); }
 .doc-status.status-missing  { background: #FEE8E8; color: var(--c-error); }
-.doc-status.status-valid    { background: #EEF7EE; color: var(--c-success); }
-.doc-status.status-verified { background: #EEF7EE; color: var(--c-success); }
-.doc-status.status-review   { background: #EEF4FF; color: var(--slds-blue); }
-.doc-status.status-reupload { background: #FEF3E2; color: var(--c-warning); }
+.doc-status.status-valid    { background: #EEF7EE; color: var(--c-success-text); }
+.doc-status.status-verified { background: #EEF7EE; color: var(--c-success-text); }
+.doc-status.status-review   { background: #EEF4FF; color: var(--slds-blue-text); }
+.doc-status.status-reupload { background: #FEF3E2; color: var(--c-warning-text); }
 
 /* ── Action Center (right panel) ──────────── */
 .action-center {
@@ -857,7 +862,7 @@ button { font-family: inherit; }
 }
 
 .ac-tab.active {
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   border-bottom-color: var(--slds-blue);
 }
 
@@ -940,7 +945,7 @@ button { font-family: inherit; }
 .feed-cta {
   background: none;
   border: 1px solid var(--slds-blue);
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   border-radius: 4px;
   padding: 6px 12px;
   font-size: 12px;
@@ -1060,7 +1065,7 @@ button { font-family: inherit; }
 .chat-prompt {
   background: var(--slds-white);
   border: 1px solid var(--slds-blue);
-  color: var(--slds-blue);
+  color: var(--slds-blue-text);
   border-radius: 16px;
   padding: 6px 12px;
   font-size: 12px;
@@ -1447,7 +1452,7 @@ button { font-family: inherit; }
   height: 56px;
   border-radius: 50%;
   background: #EEF7EE;
-  color: var(--c-success);
+  color: var(--c-success-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1457,7 +1462,7 @@ button { font-family: inherit; }
 .confirm-title {
   font-size: 18px;
   font-weight: 700;
-  color: var(--c-success);
+  color: var(--c-success-text);
   margin-bottom: 6px;
 }
 
@@ -1478,7 +1483,7 @@ button { font-family: inherit; }
   margin-bottom: 24px;
 }
 
-.case-badge strong { color: var(--slds-blue); font-size: 15px; }
+.case-badge strong { color: var(--slds-blue-text); font-size: 15px; }
 
 .timeline { text-align: left; max-width: 400px; margin: 0 auto 24px; }
 
