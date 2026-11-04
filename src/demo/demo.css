@@ -1409,11 +1409,11 @@ textarea.dm-input { resize: vertical; line-height: 1.5; }
   .ix-header-right { display: none; }
 }
 
-/* read-only account details on the new request form, styled like Salesforce read-only fields */
+/* read-only account details on the new request form: plain label and value, nothing that looks editable */
 .dm-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .dm-section-note { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--slds-text-weak, #706e6b); }
 .dm-readonly-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; }
-.dm-readonly-field { min-width: 0; padding-bottom: 8px; border-bottom: 1px solid #e5e5e5; }
+.dm-readonly-field { min-width: 0; }
 .dm-readonly-field dt { font-size: 12px; color: var(--slds-text-weak, #706e6b); margin-bottom: 4px; }
 .dm-readonly-field dd { margin: 0; font-size: 14px; line-height: 1.45; color: var(--slds-text); overflow-wrap: anywhere; }
 @media (max-width: 720px) { .dm-readonly-grid { grid-template-columns: 1fr; } }
