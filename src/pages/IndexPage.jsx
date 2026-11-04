@@ -9,7 +9,7 @@ const cast = [
   {
     initials: 'JM', avatar: 'navy', name: 'John Martinez', role: 'Full-time driver',
     channel: 'TLC Connect', icon: Monitor,
-    persona: 'Drives more than 40 hours a week, and it is his only income. His renewal has several requirements to track, and unclear instructions on a rejected document could delay it.',
+    persona: 'Drives more than 40 hours a week, and it is his only income. This is his first renewal and the process is new to him. With several requirements to track, unclear instructions on a rejected document could delay it.',
     text: 'Took a defensive driving course and needs TLC to accept his certificate before his license renewal.',
   },
   {
