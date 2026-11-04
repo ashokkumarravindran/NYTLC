@@ -6,6 +6,7 @@ export const john = {
   firstName: 'John',
   initials: 'JM',
   email: 'john.martinez@gmail.com',
+  address: ['123 Main Street, Apt 4B', 'Flushing, NY 11354'], // sample data
 }
 
 export const sarah = {

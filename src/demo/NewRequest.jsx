@@ -4,21 +4,14 @@ import { Upload, FileText, X, Route, CircleAlert, Send, ChevronRight, ChevronDow
 import { PortalShell } from './shared'
 import { john, requestTypes, DESCRIPTION_LIMIT, documentDescription, scenarioRequest, stage } from './demoData'
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 function validate(form) {
   const errors = {}
-  if (!form.name.trim()) errors.name = 'Enter your name.'
-  if (!form.email.trim()) errors.email = 'Enter your email address.'
-  else if (!EMAIL_RE.test(form.email.trim())) errors.email = 'Enter an email address in the format name@example.com.'
   if (!form.type) errors.type = 'Select a request type.'
   if (!form.description.trim()) errors.description = 'Describe what you need from TLC.'
   return errors
 }
 
 const errorOrder = [
-  ['name', 'Your name'],
-  ['email', 'Email'],
   ['type', 'Request type'],
   ['description', 'Description'],
 ]
@@ -82,28 +75,26 @@ export default function NewRequest() {
             </div>
           )}
 
+          {/* Signed in: details come from the account and are not re-entered */}
           <div className="dm-form-section">
-            <div className="dm-form-section-title">Your details</div>
-            <div className="dm-form-grid">
-              <div className="dm-form-field">
-                <label htmlFor="f-name">Your name <span className="dm-req">*</span></label>
-                <input
-                  id="f-name" className={`dm-input${errors.name ? ' invalid' : ''}`} value={form.name}
-                  onChange={set('name')} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'f-name-error' : undefined}
-                />
-                <FieldError id="f-name" message={errors.name} />
-              </div>
-              <div className="dm-form-field">
-                <label htmlFor="f-email">Email <span className="dm-req">*</span></label>
-                <input
-                  id="f-email" type="email" className={`dm-input${errors.email ? ' invalid' : ''}`} value={form.email}
-                  onChange={set('email')} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'f-email-error' : 'f-email-hint'}
-                />
-                {errors.email
-                  ? <FieldError id="f-email" message={errors.email} />
-                  : <div className="dm-hint" id="f-email-hint">We will send updates about this request here.</div>}
-              </div>
+            <div className="dm-form-section-title dm-section-head">
+              <span>Your details</span>
+              <span className="dm-section-note"><Lock size={12} /> From your TLC Connect account</span>
             </div>
+            <dl className="dm-readonly-grid">
+              <div className="dm-readonly-field">
+                <dt>Name</dt>
+                <dd>{john.name}</dd>
+              </div>
+              <div className="dm-readonly-field">
+                <dt>Email</dt>
+                <dd>{john.email}</dd>
+              </div>
+              <div className="dm-readonly-field">
+                <dt>Mailing address</dt>
+                <dd>{john.address[0]}<br />{john.address[1]}</dd>
+              </div>
+            </dl>
           </div>
 
           <div className="dm-form-section">
